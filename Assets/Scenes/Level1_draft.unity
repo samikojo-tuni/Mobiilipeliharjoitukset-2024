@@ -6319,7 +6319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d90cc9cab2154a8f6e46f12771b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {x: 7.38, y: -2}
+  target: {x: 5, y: -2}
   offset: 0.1
 --- !u!50 &1539538453
 Rigidbody2D:
