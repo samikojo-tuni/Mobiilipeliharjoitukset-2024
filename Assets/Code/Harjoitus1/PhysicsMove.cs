@@ -8,7 +8,7 @@ namespace RedGooGame
 	public class PhysicsMove : MonoBehaviour
 	{
 		[SerializeField]
-		private Vector3 target;
+		private Vector2 target;
 
 		[SerializeField]
 		private float offset;
@@ -29,13 +29,13 @@ namespace RedGooGame
 				return;
 			}
 
-			Vector3 movement = (target - transform.position);
+			Vector2 movement = (target - rb.position);
 			if (movement.magnitude > offset)
 			{
 				movement = movement.normalized;
 				movement *= Time.fixedDeltaTime;
 
-				rb.MovePosition(rb.position + (Vector2)movement);
+				rb.MovePosition(rb.position + movement);
 			}
 			else
 			{
