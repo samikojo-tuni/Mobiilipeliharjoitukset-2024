@@ -8,6 +8,7 @@ namespace RedGooGame
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class PhysicsMover : MonoBehaviour
 	{
+		#region Member variables
 		[SerializeField]
 		private float speed = 1;
 
@@ -22,16 +23,18 @@ namespace RedGooGame
 		private float jumpRate = 0.5f;
 		private float jumpTimer = 0;
 		private bool isGrounded = false;
+		#endregion
 
+		#region Unity Methods
 		private void Awake()
 		{
-			rb2D = GetComponent<Rigidbody2D>();
-			inputReader = GetComponent<InputReader>();
+			this.rb2D = GetComponent<Rigidbody2D>();
+			this.inputReader = GetComponent<InputReader>();
 		}
 
 		private void Update()
 		{
-			direction = inputReader.GetMovement();
+			this.direction = inputReader.GetMovement();
 
 			bool isJumping = inputReader.IsJumping();
 			if (!this.isJumping && isJumping)
@@ -42,18 +45,10 @@ namespace RedGooGame
 			UpdateJumpTimer(Time.deltaTime);
 		}
 
-		private void UpdateJumpTimer(float deltaTime)
-		{
-			if (jumpTimer > 0)
-			{
-				jumpTimer -= deltaTime;
-			}
-		}
-
 		private void FixedUpdate()
 		{
-			Move(direction);
-			if (this.isJumping )
+			Move(this.direction);
+			if (this.isJumping)
 			{
 				Jump();
 
@@ -64,7 +59,7 @@ namespace RedGooGame
 
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
- 			this.isGrounded = collision.gameObject.layer == LayerMask.NameToLayer("Ground");
+			this.isGrounded = collision.gameObject.layer == LayerMask.NameToLayer("Ground");
 		}
 
 		private void OnCollisionExit2D(Collision2D collision)
@@ -74,10 +69,20 @@ namespace RedGooGame
 				this.isGrounded = false;
 			}
 		}
+		#endregion
+
+		#region Internal functionality
+		private void UpdateJumpTimer(float deltaTime)
+		{
+			if (this.jumpTimer > 0)
+			{
+				this.jumpTimer -= deltaTime;
+			}
+		}
 
 		private void Jump()
 		{
-			if (jumpTimer > 0)
+			if (this.jumpTimer > 0)
 			{
 				// Jump on cooldown, can't jump again just yet.
 				return;
@@ -86,16 +91,17 @@ namespace RedGooGame
 			Debug.Log("Jumping");
 			if (this.isGrounded)
 			{
-				rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-				jumpTimer = jumpRate;
+				this.rb2D.AddForce(Vector2.up * this.jumpForce, ForceMode2D.Impulse);
+				this.jumpTimer = this.jumpRate;
 			}
 		}
 
 		private void Move(Vector2 direction)
 		{
-			Vector2 velocity = rb2D.velocity;
-			velocity.x = direction.x * speed;
-			rb2D.velocity = velocity;
+			Vector2 velocity = this.rb2D.velocity;
+			velocity.x = this.direction.x * this.speed;
+			this.rb2D.velocity = velocity;
 		}
+		#endregion
 	}
 }
