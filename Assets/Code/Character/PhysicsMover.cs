@@ -1,48 +1,45 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace RedGooGame
+namespace Mobiiliesimerkki
 {
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class PhysicsMover : MonoBehaviour
 	{
 		[SerializeField]
-		private float speed = 1;
+		private float _speed = 1;
 
-		private Rigidbody2D rb2D;
-		private InputReader inputReader;
+		private Rigidbody2D _rb2D;
+		private InputReader _inputReader;
 
-		private bool isJumping = false;
-		private Vector2 direction = Vector2.zero;
+		private bool _isJumping = false;
+		private Vector2 _direction = Vector2.zero;
 
 		private void Awake()
 		{
-			rb2D = GetComponent<Rigidbody2D>();
-			inputReader = GetComponent<InputReader>();
+			_rb2D = GetComponent<Rigidbody2D>();
+			_inputReader = GetComponent<InputReader>();
 		}
 
 		private void Update()
 		{
-			direction = inputReader.GetMovement();
+			_direction = _inputReader.Movement;
 
-			bool isJumping = inputReader.IsJumping();
-			if (!this.isJumping && isJumping)
+			bool isJumping = _inputReader.Jump;
+			if (!_isJumping && isJumping)
 			{
-				this.isJumping = true;
+				_isJumping = true;
 			}
 		}
 
 		private void FixedUpdate()
 		{
-			Move(direction);
-			if (this.isJumping )
+			Move(_direction);
+			if (_isJumping)
 			{
 				Jump();
 
 				// Jump input consumed
-				this.isJumping = false;
+				_isJumping = false;
 			}
 		}
 
@@ -53,9 +50,9 @@ namespace RedGooGame
 
 		private void Move(Vector2 direction)
 		{
-			Vector2 velocity = rb2D.velocity;
-			velocity.x = direction.x * speed;
-			rb2D.velocity = velocity;
+			Vector2 velocity = _rb2D.velocity;
+			velocity.x = direction.x * _speed;
+			_rb2D.velocity = velocity;
 		}
 	}
 }

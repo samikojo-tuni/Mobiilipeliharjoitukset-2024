@@ -1,33 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace RedGooGame
+namespace Mobiiliesimerkki
 {
 	public class InputReader : MonoBehaviour
 	{
-		private Vector2 movementDirection = Vector2.zero;
-		private bool isJumping = false;
+		private Inputs _inputs = null;
 
-		public void OnMove(InputAction.CallbackContext context)
+		public Vector2 Movement
 		{
-			this.movementDirection = context.ReadValue<Vector2>();
+			get;
+			private set;
 		}
 
-		public void OnJump(InputAction.CallbackContext context)
+		public bool Jump
 		{
-			isJumping = context.performed;
+			get;
+			private set;
 		}
 
-		public Vector2 GetMovement()
+		private void Awake()
 		{
-			return movementDirection;
+			_inputs = new Inputs();
 		}
 
-		public bool IsJumping()
+		private void OnEnable()
 		{
-			return isJumping;
+			_inputs.Game.Enable();
+		}
+
+		private void OnDisable()
+		{
+			_inputs.Game.Disable();
+		}
+
+		private void Update()
+		{
+			Movement = _inputs.Game.Move.ReadValue<Vector2>();
+			Jump = _inputs.Game.Jump.IsPressed();
 		}
 	}
 }
