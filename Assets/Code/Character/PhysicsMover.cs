@@ -8,11 +8,17 @@ namespace Mobiiliesimerkki
 		[SerializeField]
 		private float _speed = 1;
 
+		[SerializeField]
+		private float _jumpForce = 1;
+
 		private Rigidbody2D _rb2D;
 		private InputReader _inputReader;
 
 		private bool _isJumping = false;
 		private Vector2 _direction = Vector2.zero;
+		private float _jumpRate = 0.5f;
+		private float _jumpTimer = 0;
+		private bool _isGrounded = false;
 
 		private void Awake()
 		{
@@ -24,10 +30,20 @@ namespace Mobiiliesimerkki
 		{
 			_direction = _inputReader.Movement;
 
-			bool isJumping = _inputReader.Jump;
-			if (!_isJumping && isJumping)
+			bool shouldJump = _inputReader.Jump;
+			if (!_isJumping && shouldJump)
 			{
 				_isJumping = true;
+			}
+
+			UpdateJumpTimer(Time.deltaTime);
+		}
+
+		private void UpdateJumpTimer(float deltaTime)
+		{
+			if (_jumpTimer > 0)
+			{
+				_jumpTimer -= deltaTime;
 			}
 		}
 
@@ -43,9 +59,33 @@ namespace Mobiiliesimerkki
 			}
 		}
 
+		private void OnCollisionEnter2D(Collision2D collision)
+		{
+			_isGrounded = collision.gameObject.layer == LayerMask.NameToLayer("Ground");
+		}
+
+		private void OnCollisionExit2D(Collision2D collision)
+		{
+			if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+			{
+				_isGrounded = false;
+			}
+		}
+
 		private void Jump()
 		{
+			if (_jumpTimer > 0)
+			{
+				// Jump on cooldown, can't jump again just yet.
+				return;
+			}
+
 			Debug.Log("Jumping");
+			if (_isGrounded)
+			{
+				_rb2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+				_jumpTimer = _jumpRate;
+			}
 		}
 
 		private void Move(Vector2 direction)
