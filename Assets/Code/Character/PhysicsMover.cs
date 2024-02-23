@@ -9,6 +9,9 @@ namespace Mobiiliesimerkki
 		private float _speed = 1;
 
 		[SerializeField]
+		private float _acceleration = 1;
+
+		[SerializeField]
 		private float _jumpForce = 1;
 
 		private Rigidbody2D _rb2D;
@@ -19,6 +22,8 @@ namespace Mobiiliesimerkki
 		private float _jumpRate = 0.5f;
 		private float _jumpTimer = 0;
 		private bool _isGrounded = false;
+
+		public float AccelerationForce => _acceleration * _rb2D.mass;
 
 		private void Awake()
 		{
@@ -90,9 +95,9 @@ namespace Mobiiliesimerkki
 
 		private void Move(Vector2 direction)
 		{
-			Vector2 velocity = _rb2D.velocity;
-			velocity.x = direction.x * _speed;
-			_rb2D.velocity = velocity;
+			_rb2D.AddForce(direction * AccelerationForce, ForceMode2D.Force);
+			float xSpeed = Mathf.Clamp(_rb2D.velocity.x, -_speed, _speed);
+			_rb2D.velocity = new Vector2(xSpeed, _rb2D.velocity.y);
 		}
 	}
 }
