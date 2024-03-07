@@ -5,6 +5,7 @@ namespace Mobiiliesimerkki
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class PhysicsMover : MonoBehaviour
 	{
+		#region Member variables
 		[SerializeField]
 		private float _speed = 1;
 
@@ -76,6 +77,16 @@ namespace Mobiiliesimerkki
 				_isGrounded = false;
 			}
 		}
+		#endregion
+
+		#region Internal functionality
+		private void UpdateJumpTimer(float deltaTime)
+		{
+			if (this.jumpTimer > 0)
+			{
+				this.jumpTimer -= deltaTime;
+			}
+		}
 
 		private void Jump()
 		{
@@ -99,5 +110,6 @@ namespace Mobiiliesimerkki
 			float xSpeed = Mathf.Clamp(_rb2D.velocity.x, -_speed, _speed);
 			_rb2D.velocity = new Vector2(xSpeed, _rb2D.velocity.y);
 		}
+		#endregion
 	}
 }
