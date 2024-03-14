@@ -67,7 +67,10 @@ namespace Mobiiliesimerkki
 
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
-			_isGrounded = collision.gameObject.layer == LayerMask.NameToLayer("Ground");
+			if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+			{
+				_isGrounded = true;
+			}
 		}
 
 		private void OnCollisionExit2D(Collision2D collision)
@@ -80,13 +83,6 @@ namespace Mobiiliesimerkki
 		#endregion
 
 		#region Internal functionality
-		private void UpdateJumpTimer(float deltaTime)
-		{
-			if (this.jumpTimer > 0)
-			{
-				this.jumpTimer -= deltaTime;
-			}
-		}
 
 		private void Jump()
 		{
