@@ -4,6 +4,7 @@ namespace Mobiiliesimerkki
 {
 	public static class GameManager
 	{
+		public static event System.Action<int> ScoreChanged;
 		private static int _score = 0;
 
 		public static int Score
@@ -12,6 +13,11 @@ namespace Mobiiliesimerkki
 			set
 			{
 				_score = Mathf.Clamp(value, 0, int.MaxValue);
+
+				if (ScoreChanged != null)
+				{
+					ScoreChanged(_score);
+				}
 			}
 		}
 

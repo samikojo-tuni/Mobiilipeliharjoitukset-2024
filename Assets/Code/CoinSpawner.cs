@@ -32,7 +32,7 @@ namespace Mobiiliesimerkki
 
 		private void OnDrawGizmos()
 		{
-			Gizmos.color = Color.yellow;
+			Gizmos.color = Color.red;
 			Gizmos.DrawWireCube(transform.position, new Vector3(_areaExtents.x * 2, _areaExtents.y * 2, 0));
 		}
 

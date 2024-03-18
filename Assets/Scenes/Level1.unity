@@ -1098,7 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _coinPrefab: {fileID: 6721249603598788250, guid: 6b8b5f69329684ab3984e96e8d85abde, type: 3}
   _spawnInterval: 1
-  _areaExtents: {x: 3, y: 2}
+  _areaExtents: {x: 2.36, y: 1.52}
   _maxCoins: 5
 --- !u!4 &326469316
 Transform:

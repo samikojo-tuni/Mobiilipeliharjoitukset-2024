@@ -13,11 +13,28 @@ namespace Mobiiliesimerkki.UI
 			{
 				_scoreText = GetComponent<TextMeshProUGUI>();
 			}
+
+			// OnScoreChanged(GameManager.Score);
 		}
 
 		private void Update()
 		{
 			_scoreText.text = $"Score: {GameManager.Score}";
 		}
+
+		// private void OnEnable()
+		// {
+		// 	GameManager.ScoreChanged += OnScoreChanged;
+		// }
+
+		// private void OnDisable()
+		// {
+		// 	GameManager.ScoreChanged -= OnScoreChanged;
+		// }
+
+		// private void OnScoreChanged(int currentScore)
+		// {
+		// 	_scoreText.text = $"Score: {currentScore}";
+		// }
 	}
 }
