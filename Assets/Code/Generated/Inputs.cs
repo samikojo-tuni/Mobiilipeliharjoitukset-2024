@@ -64,6 +64,15 @@ namespace Mobiiliesimerkki
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4d4f2e0-1f0a-413c-b1c1-65319021f489"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,6 +207,17 @@ namespace Mobiiliesimerkki
                     ""action"": ""Launch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50aac187-5d90-49d3-b88f-f33ce44ed366"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -233,6 +253,7 @@ namespace Mobiiliesimerkki
             m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
             m_Game_Interact = m_Game.FindAction("Interact", throwIfNotFound: true);
             m_Game_Launch = m_Game.FindAction("Launch", throwIfNotFound: true);
+            m_Game_Pause = m_Game.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -298,6 +319,7 @@ namespace Mobiiliesimerkki
         private readonly InputAction m_Game_Jump;
         private readonly InputAction m_Game_Interact;
         private readonly InputAction m_Game_Launch;
+        private readonly InputAction m_Game_Pause;
         public struct GameActions
         {
             private @Inputs m_Wrapper;
@@ -306,6 +328,7 @@ namespace Mobiiliesimerkki
             public InputAction @Jump => m_Wrapper.m_Game_Jump;
             public InputAction @Interact => m_Wrapper.m_Game_Interact;
             public InputAction @Launch => m_Wrapper.m_Game_Launch;
+            public InputAction @Pause => m_Wrapper.m_Game_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Game; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -327,6 +350,9 @@ namespace Mobiiliesimerkki
                 @Launch.started += instance.OnLaunch;
                 @Launch.performed += instance.OnLaunch;
                 @Launch.canceled += instance.OnLaunch;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(IGameActions instance)
@@ -343,6 +369,9 @@ namespace Mobiiliesimerkki
                 @Launch.started -= instance.OnLaunch;
                 @Launch.performed -= instance.OnLaunch;
                 @Launch.canceled -= instance.OnLaunch;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(IGameActions instance)
@@ -384,6 +413,7 @@ namespace Mobiiliesimerkki
             void OnJump(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnLaunch(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
     }
 }
