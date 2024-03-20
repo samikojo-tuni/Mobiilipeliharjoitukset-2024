@@ -23,8 +23,11 @@ namespace Mobiiliesimerkki
 		private float _jumpRate = 0.5f;
 		private float _jumpTimer = 0;
 		private bool _isGrounded = false;
+		private float _speedModifier = 1;
+		private float _modifierTimer = 0;
 
 		public float AccelerationForce => _acceleration * _rb2D.mass;
+		public float Speed => _speed * _speedModifier;
 
 		private void Awake()
 		{
@@ -43,6 +46,13 @@ namespace Mobiiliesimerkki
 			}
 
 			UpdateJumpTimer(Time.deltaTime);
+			UpdateModifierTimer();
+		}
+
+		public void ApplySpeedModifier(float modifier, float time)
+		{
+			_speedModifier = modifier;
+			_modifierTimer = time;
 		}
 
 		private void UpdateJumpTimer(float deltaTime)
@@ -103,8 +113,21 @@ namespace Mobiiliesimerkki
 		private void Move(Vector2 direction)
 		{
 			_rb2D.AddForce(direction * AccelerationForce, ForceMode2D.Force);
-			float xSpeed = Mathf.Clamp(_rb2D.velocity.x, -_speed, _speed);
+			float xSpeed = Mathf.Clamp(_rb2D.velocity.x, -Speed, Speed);
 			_rb2D.velocity = new Vector2(xSpeed, _rb2D.velocity.y);
+		}
+
+		private void UpdateModifierTimer()
+		{
+			if (_modifierTimer > 0)
+			{
+				_modifierTimer -= Time.deltaTime;
+
+				if (_modifierTimer <= 0)
+				{
+					_speedModifier = 1;
+				}
+			}
 		}
 		#endregion
 	}
