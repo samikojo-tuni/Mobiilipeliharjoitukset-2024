@@ -22,7 +22,7 @@ namespace Mobiiliesimerkki.UI
 			_resetButton.onClick.RemoveListener(OnReset);
 		}
 
-		private void OnReset()
+		public void OnReset()
 		{
 			GameManager.Reset();
 		}
